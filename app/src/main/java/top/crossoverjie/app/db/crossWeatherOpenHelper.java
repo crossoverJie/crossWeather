@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Administrator on 2016/8/3.
  */
-public class crossWeatherOpenHelper extends SQLiteOpenHelper {
+public class CrossWeatherOpenHelper extends SQLiteOpenHelper {
 
     /**
      *  Province表建表语句
@@ -34,7 +34,7 @@ public class crossWeatherOpenHelper extends SQLiteOpenHelper {
             + "city_id integer)";
 
 
-    public crossWeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public CrossWeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
