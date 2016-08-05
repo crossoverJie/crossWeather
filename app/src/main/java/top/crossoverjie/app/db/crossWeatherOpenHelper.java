@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CrossWeatherOpenHelper extends SQLiteOpenHelper {
 
     /**
-     *  Province表建表语句
+     *  Province表建表语句1
      */
     public static final String CREATE_PROVINCE = "create table Province ("
             + "id integer primary key autoincrement, "
