@@ -1,4 +1,4 @@
-package top.crossoverjie.app.uitl;
+package top.crossoverjie.app.model.json;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import top.crossoverjie.app.model.GsonImpl;
-import top.crossoverjie.app.model.Weather;
 
 /**
  * Created by Administrator on 2016/8/4.

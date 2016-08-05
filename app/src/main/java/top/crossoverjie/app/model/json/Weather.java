@@ -1,4 +1,4 @@
-package top.crossoverjie.app.model;
+package top.crossoverjie.app.model.json;
 
 import java.util.List;
 

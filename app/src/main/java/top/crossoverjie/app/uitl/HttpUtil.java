@@ -29,6 +29,9 @@ public class HttpUtil {
                         response.append(line) ;
                     }
                     if (listener != null){
+                        response.deleteCharAt(11);
+                        response.deleteCharAt(15);
+                        response.delete(22,26);
                         listener.onFinish(response.toString());
                     }
                 }catch (Exception e){
