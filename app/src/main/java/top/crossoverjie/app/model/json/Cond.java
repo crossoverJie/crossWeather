@@ -1,4 +1,4 @@
-package top.crossoverjie.app.model;
+package top.crossoverjie.app.model.json;
 
 /**
  * Created by Administrator on 2016/8/5.

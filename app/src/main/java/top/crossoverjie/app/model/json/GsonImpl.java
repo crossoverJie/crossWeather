@@ -1,4 +1,4 @@
-package top.crossoverjie.app.model;
+package top.crossoverjie.app.model.json;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

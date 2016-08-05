@@ -7,8 +7,8 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import top.crossoverjie.app.model.GsonImpl;
-import top.crossoverjie.app.model.Weather;
+import top.crossoverjie.app.model.json.GsonImpl;
+import top.crossoverjie.app.model.json.Weather;
 
 /**
  * Created by Administrator on 2016/8/4.
