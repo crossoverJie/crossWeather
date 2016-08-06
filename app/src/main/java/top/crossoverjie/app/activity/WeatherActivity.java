@@ -39,6 +39,7 @@ public class WeatherActivity extends Activity {
 
     private MapView mapView ;
     private BaiduMap map ;
+    public StringBuffer city_txt ;
 
     private LinearLayout weatherInfoLayout ;
     private TextView cityNameText ;
@@ -55,12 +56,6 @@ public class WeatherActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE) ;
         setContentView(R.layout.weather_layout) ;
-
-        mLocationClient = new LocationClient(getApplicationContext()); //声明LocationClient类
-        mLocationClient.registerLocationListener( myListener ); //注册监听函数
-        initLocation();
-        mLocationClient.start();
-
 
         weatherInfoLayout = (LinearLayout) findViewById(R.id.weather_info_layout);
         cityNameText = (TextView) findViewById(R.id.city_name);
@@ -84,10 +79,14 @@ public class WeatherActivity extends Activity {
                 showWeather();
                 return ;
             }
+        }else {
+            //有网络使用百度地图进行定位
+            mLocationClient = new LocationClient(getApplicationContext()); //声明LocationClient类
+            mLocationClient.registerLocationListener(myListener); //注册监听函数
+            initLocation();
+            mLocationClient.start();
         }
-        String httpUrl = "https://api.heweather.com/x3/weather?city=江津" +
-                "&key=082719d5f5454dd5ac63d0675374758f";
-        queryWeatherFromServer(httpUrl);
+
     }
 
     public void queryWeatherFromServer(final String addr){
@@ -140,9 +139,9 @@ public class WeatherActivity extends Activity {
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span=1000;
-        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-//        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+//        int span=1000;
+//        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
 //        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
@@ -162,6 +161,9 @@ public class WeatherActivity extends Activity {
         public void onReceiveLocation(BDLocation location) {
             //Receive Location
             StringBuffer sb = new StringBuffer(256);
+            city_txt = new StringBuffer(location.getCity()) ;
+            String cityCode = location.getCityCode();
+            System.out.println(cityCode);
             sb.append("time : ");
             sb.append(location.getTime());
             sb.append("\nerror code : ");
@@ -219,6 +221,17 @@ public class WeatherActivity extends Activity {
                 }
             }
             Log.d("BaiduLocationApiDem", sb.toString());
+            city_txt.deleteCharAt(city_txt.length()-1);
+
+            String httpUrl = "https://api.heweather.com/x3/weather?city="+city_txt+"" +
+                    "&key=082719d5f5454dd5ac63d0675374758f";
+            queryWeatherFromServer(httpUrl);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationClient.stop();
     }
 }
