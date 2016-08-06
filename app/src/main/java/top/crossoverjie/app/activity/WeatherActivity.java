@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class WeatherActivity extends Activity {
 
     private MapView mapView ;
     private BaiduMap map ;
-    public StringBuffer city_txt ;
+    public StringBuilder city_txt ;
 
     private LinearLayout weatherInfoLayout ;
     private TextView cityNameText ;
@@ -47,6 +48,7 @@ public class WeatherActivity extends Activity {
     private TextView currentDate;
     private TextView weatherDescText;
     private TextView tmpText;//当前温度
+    private Button refresh_weather ;//刷新天气
 
     private SharedPreferences prefs ;
 
@@ -63,6 +65,7 @@ public class WeatherActivity extends Activity {
         currentDate = (TextView) findViewById(R.id.current_date);
         weatherDescText = (TextView) findViewById(R.id.weather_desc);
         tmpText = (TextView) findViewById(R.id.tmp);
+        refresh_weather = (Button) findViewById(R.id.refresh_weather);
         prefs =PreferenceManager.getDefaultSharedPreferences(this);
         boolean isConnected = NetworkUtils.isConnected(this);
         publishText.setText("同步中..");
@@ -86,6 +89,14 @@ public class WeatherActivity extends Activity {
             initLocation();
             mLocationClient.start();
         }
+        refresh_weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh_weather(city_txt);
+                publishText.setText("同步中");
+                Toast.makeText(WeatherActivity.this,"更新成功",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -161,7 +172,7 @@ public class WeatherActivity extends Activity {
         public void onReceiveLocation(BDLocation location) {
             //Receive Location
             StringBuffer sb = new StringBuffer(256);
-            city_txt = new StringBuffer(location.getCity()) ;
+            city_txt = new StringBuilder(location.getCity()) ;
             String cityCode = location.getCityCode();
             System.out.println(cityCode);
             sb.append("time : ");
@@ -223,10 +234,17 @@ public class WeatherActivity extends Activity {
             Log.d("BaiduLocationApiDem", sb.toString());
             city_txt.deleteCharAt(city_txt.length()-1);
 
-            String httpUrl = "https://api.heweather.com/x3/weather?city="+city_txt+"" +
-                    "&key=082719d5f5454dd5ac63d0675374758f";
-            queryWeatherFromServer(httpUrl);
+            refresh_weather(city_txt) ;
         }
+    }
+
+    /**
+     * 刷新天气和获得天气
+     */
+    public void refresh_weather(StringBuilder city_txt){
+        String httpUrl = "https://api.heweather.com/x3/weather?city="+city_txt+"" +
+                "&key=082719d5f5454dd5ac63d0675374758f";
+        queryWeatherFromServer(httpUrl);
     }
 
     @Override
