@@ -1,6 +1,7 @@
 package top.crossoverjie.app.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -49,6 +50,7 @@ public class WeatherActivity extends Activity {
     private TextView weatherDescText;
     private TextView tmpText;//当前温度
     private Button refresh_weather ;//刷新天气
+    private Button switch_city ;//选择城市
 
     private SharedPreferences prefs ;
 
@@ -66,6 +68,7 @@ public class WeatherActivity extends Activity {
         weatherDescText = (TextView) findViewById(R.id.weather_desc);
         tmpText = (TextView) findViewById(R.id.tmp);
         refresh_weather = (Button) findViewById(R.id.refresh_weather);
+        switch_city = (Button) findViewById(R.id.switch_city);
         prefs =PreferenceManager.getDefaultSharedPreferences(this);
         boolean isConnected = NetworkUtils.isConnected(this);
         publishText.setText("同步中..");
@@ -97,7 +100,31 @@ public class WeatherActivity extends Activity {
                 Toast.makeText(WeatherActivity.this,"更新成功",Toast.LENGTH_LONG).show();
             }
         });
+        /**
+         * 查询城市
+         */
+        switch_city.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WeatherActivity.this,ChossCityActivity.class) ;
+                startActivityForResult(intent,1);
+            }
+        });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:{
+                if (resultCode == RESULT_OK){
+                    String city_name = data.getStringExtra("city_name");
+                    if (!"".equals(city_name)){
+                        refresh_weather(new StringBuilder(city_name));
+                    }
+                }
+            }
+        }
     }
 
     public void queryWeatherFromServer(final String addr){
@@ -141,7 +168,7 @@ public class WeatherActivity extends Activity {
         publishText.setText(loc+"发布") ;
         currentDate.setText(nowDate);
         weatherDescText.setText(weatherDesc) ;
-        tmpText.setText(tmp+"C");
+        tmpText.setText(tmp+"°C");
         weatherInfoLayout.setVisibility(View.VISIBLE);
     }
 

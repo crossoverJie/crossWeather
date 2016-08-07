@@ -4,11 +4,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/weather"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--百度地图配置-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="SOAc4keLG3OUpAoLUsRkuFxlG0cVkRnU" />
@@ -20,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+        <activity android:name="top.crossoverjie.app.activity.ChossCityActivity"></activity>
         <!--百度地图定位监听服务-->
         <service
             android:name="com.baidu.location.f"

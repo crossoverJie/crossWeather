@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">crossWeather</string>
+    <string name="choose_city">请输入城市</string>
 </resources>
