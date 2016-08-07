@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name="top.crossoverjie.app.activity.ChossCityActivity"></activity>
+        <service android:name="top.crossoverjie.app.service.AutoUpdateService"></service>
+        <receiver android:name="top.crossoverjie.app.receiver.AutoUpdateReceiver"></receiver>
         <!--百度地图定位监听服务-->
         <service
             android:name="com.baidu.location.f"

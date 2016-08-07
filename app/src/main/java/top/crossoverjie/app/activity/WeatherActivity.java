@@ -26,7 +26,9 @@ import java.util.List;
 import crossoverjie.top.crossweather.R;
 import top.crossoverjie.app.model.json.GsonImpl;
 import top.crossoverjie.app.model.json.Weather;
+import top.crossoverjie.app.service.AutoUpdateService;
 import top.crossoverjie.app.uitl.DataUtility;
+import top.crossoverjie.app.uitl.DialogUitl;
 import top.crossoverjie.app.uitl.HttpCallBackListener;
 import top.crossoverjie.app.uitl.HttpUtil;
 import top.crossoverjie.app.uitl.NetworkUtils;
@@ -95,9 +97,14 @@ public class WeatherActivity extends Activity {
         refresh_weather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh_weather(city_txt);
-                publishText.setText("同步中");
-                Toast.makeText(WeatherActivity.this,"更新成功",Toast.LENGTH_LONG).show();
+                boolean isConnected = NetworkUtils.isConnected(WeatherActivity.this);
+                if (isConnected){
+                    refresh_weather(city_txt);
+                    publishText.setText("同步中");
+                    Toast.makeText(WeatherActivity.this,"更新成功",Toast.LENGTH_LONG).show();
+                }else{
+                    DialogUitl.showDialog(WeatherActivity.this);
+                }
             }
         });
         /**
@@ -106,8 +113,13 @@ public class WeatherActivity extends Activity {
         switch_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WeatherActivity.this,ChossCityActivity.class) ;
-                startActivityForResult(intent,1);
+                boolean isConnected = NetworkUtils.isConnected(WeatherActivity.this);
+                if (isConnected){
+                    Intent intent = new Intent(WeatherActivity.this,ChossCityActivity.class) ;
+                    startActivityForResult(intent,1);
+                }else{
+                    DialogUitl.showDialog(WeatherActivity.this);
+                }
             }
         });
 
@@ -170,6 +182,9 @@ public class WeatherActivity extends Activity {
         weatherDescText.setText(weatherDesc) ;
         tmpText.setText(tmp+"°C");
         weatherInfoLayout.setVisibility(View.VISIBLE);
+
+        Intent i = new Intent(this, AutoUpdateService.class) ;
+        startService(i) ;
     }
 
     private void initLocation(){
