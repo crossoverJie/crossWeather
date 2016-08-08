@@ -10,6 +10,7 @@
 
         <EditText
             android:id="@+id/choose_city_edit"
+            android:layout_marginTop="20dp"
             android:layout_width="250dp"
             android:inputType="text"
             android:hint="@string/choose_city"
@@ -17,6 +18,8 @@
 
         <Button
             android:id="@+id/query_city"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/search_icon"

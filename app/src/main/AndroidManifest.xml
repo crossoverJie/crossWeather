@@ -14,7 +14,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="SOAc4keLG3OUpAoLUsRkuFxlG0cVkRnU" />
 
-        <activity android:name="top.crossoverjie.app.activity.WeatherActivity"
+        <activity android:name="top.crossoverjie.app.activity.NavigationDrawerAnimationActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
